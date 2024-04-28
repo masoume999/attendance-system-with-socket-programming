@@ -1,0 +1,54 @@
+CREATE TABLE  User
+(Fname	VARCHAR(20)	NOT NULL,
+Lname VARCHAR(20) NOT NULL,
+Username VARCHAR(20) NOT NULL,
+Password VARCHAR(20) NOT NULL,
+Role VARCHAR(10) NOT NULL,
+PRIMARY KEY (Username));
+
+CREATE TABLE  Class
+(ID	VARCHAR(500)	NOT NULL,
+PRIMARY KEY (ID));
+
+CREATE TABLE  network.Member
+(ID	VARCHAR(500)	NOT NULL,
+Username VARCHAR(20) NOT NULL,
+PRIMARY KEY (ID,Username),
+FOREIGN KEY (Username) REFERENCES User (Username) 
+ON UPDATE CASCADE ON DELETE CASCADE,
+FOREIGN KEY (ID) REFERENCES Class (ID) 
+ON UPDATE CASCADE ON DELETE CASCADE);
+
+CREATE TABLE  network.Attendees
+(Username VARCHAR(20) NOT NULL,
+ID	VARCHAR(500) NOT NULL,
+PRIMARY KEY (Username),
+FOREIGN KEY (Username) REFERENCES user (Username),
+FOREIGN KEY (ID) REFERENCES Class (ID)) 
+
+
+CREATE TABLE  network.AttendanceList
+(Username VARCHAR(20) NOT NULL,
+ID	VARCHAR(500) NOT NULL,
+Date date NOT NULL,
+Status CHAR(1) NOT NULL,  
+PRIMARY KEY (Username,ID,Date),
+FOREIGN KEY (Username) REFERENCES user (Username),
+FOREIGN KEY (ID) REFERENCES Class (ID)) 
+
+INSERT INTO network.attendancelist values('9713200072','java class','1400-01-30','+');
+INSERT INTO network.attendancelist values('9713200072','c++ class','1400-01-18','-');
+INSERT INTO network.attendancelist values('9713200071','java class','1400-01-30','-');
+INSERT INTO network.attendancelist values('9713200071','math class','1400-01-18','+');
+INSERT INTO network.attendancelist values('9713200072','java class','1400-02-7','+');
+INSERT INTO network.attendancelist values('9713200071','java class','1400-02-7','+');
+INSERT INTO network.attendancelist values('9713200072', 'java class', '2021-05-21', '+');
+INSERT INTO network.attendancelist values('9713200071', 'java class', '2021-05-21', '-');
+
+
+
+
+SELECT Username,Status,Date 
+FROM network.attendancelist 
+WHERE ID='java class' 
+GROUP BY Username
